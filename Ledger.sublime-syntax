@@ -8,15 +8,28 @@ file_extensions:
   - ldgr
 scope: source.ledger
 
+variables:
+  keywords: |-
+    (?x:apply account|apply fixed|apply tag|alias|account|assert|
+        capture|check|commodity|comment|
+        define|
+        end|
+        expr|eval|
+        include|
+        payee|
+        tag|test|
+        year
+    )
+
 contexts:
   main:
     - match: ^\s*(;.*)$
       captures:
         1: comment.line
-    - match: ^(include)(?:\s+)(\S*)$
+    - match: ^({{keywords}})(?!:\s+)(.*)$
       captures:
         1: keyword.control
-        2: string.other.path
+        2: string.expression.ledger
     - match: '^(\d{4}[/-]\d{2}[/-]\d{2})([=]?)(\d{4}[/-]\d{2}[/-]\d{2})?\s+(.+)$'
       captures:
         1: string.other.date
